@@ -18,9 +18,7 @@ plugins {
     // Apply the cpp-unit-test plugin to add support for building and running CPP test executables
     id 'cpp-unit-test'
 
-    id 'edu.wpi.first.Toolchain' version '2019.2.8'
-
-    //id 'io.lacasse.vscode' version '1.0-SNAPSHOT'
+    //id 'edu.wpi.first.Toolchain' version '2019.2.8'
 }
 
 
@@ -31,63 +29,18 @@ buildScan {
 
 evaluationDependsOn('java')
 
-int count = 0;
-
 //Set the target operating system and architecture for this library
 library {
     linkage = [Linkage.STATIC, Linkage.SHARED]
     targetMachines.add(machines.windows.x86_64)
-    //targetMachines.add(machines.windows.x86)
-    //targetMachines.add(machines.linux.x86_64)
-    //targetMachines.add(machines.macOS.x86_64)
-    targetMachines.add(machines.windows.architecture('linuxathena'))
-    //targetMachines.add(machines.linux.architecture('roboRio'))
+    targetMachines.add(machines.windows.x86)
+    targetMachines.add(machines.linux.x86_64)
+    targetMachines.add(machines.macOS.x86_64)
+    //targetMachines.add(machines.windows.architecture('linuxathena'))
 
-    //println it
-    //it.ext.thing = 5
 
     jni.addJavaCompile(project('java').tasks.named('compileJava'))
     jni.addJavaTest(project('java').tasks.named('test'))
-    jni.addCrossCompile(machines.windows.architecture('linuxathena'))
+    //jni.addCrossCompile(machines.windows.architecture('linuxathena'))
     jni.checkSymbols true
-
-
-    it.binaries.configureEach {
-        if (!(it instanceof CppSharedLibrary)) return
-        // def bin = it
-        // int c = count;
-        // def t = tasks.register("Extract" + c, ExtractSymbols) { extract ->
-        //     def linkDebug = bin.linkTask.get()
-        //     extract.toolChain = linkDebug.toolChain
-        //     extract.targetPlatform = linkDebug.targetPlatform
-        //     extract.binaryFile.set linkDebug.linkedFile
-        //     symbolFile.set file("build/symbols.txt")
-        //     //targetPlatform.set((NativePlatform)bin.targetPlatform)
-        // }
-        // //build.dependsOn t
-        // count++;
-    }
-
-
-
-    // def lib = it
-    // project('java').tasks.withType(JavaCompile).each {
-    //     lib.privateHeaders.from project('java').getBuildDir().toString() + "/jniinclude/" + it.getName();
-    // }
-    // it.binaries.configureEach {
-    //     def compileTask = it.compileTask.get()
-
-    //     project('java').tasks.withType(JavaCompile).all {
-    //         compileTask.dependsOn it
-    //     }
-    // }
-}
-
-// tasks.withType(ExtractSymbols).all {
-//     build.dependsOn it
-// }
-
-
-tasks.withType(LinkSharedLibrary).all {
-    build.dependsOn it
 }
