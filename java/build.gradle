@@ -1,0 +1,17 @@
+plugins {
+    // For JNI
+    id 'java'
+    id 'edu.wpi.first.GradleJni'
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.named('compileJava').configure {
+    jni.addJniHeaderGeneration();
+}
